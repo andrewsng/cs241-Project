@@ -1,6 +1,24 @@
+// cs241-Project.ino
+// Andrew S. Ng
+// 2021-04-28
+//
+// For CS 241 Spring 2021
+// Code for Arduino timelapse project
+
+
+// *******************************************************************
+// GLOBAL STATE
+// *******************************************************************
+
+
 bool shutterIsActive = false;
 long photosToTake = 0;
 long timeInterval = 10000;
+
+
+// *******************************************************************
+// TIMELAPSE START/STOP
+// *******************************************************************
 
 
 void startShutter()
@@ -17,28 +35,9 @@ void stopShutter()
 }
 
 
-String getCommand()
-{
-  String cmd = "";
-  while (Serial.available() > 0)
-  {
-    int c = Serial.read();
-    if (c < 0)
-    {
-      break;
-    }
-    if (c == '\n')
-    {
-      break;
-    }
-    else if (c != '\r')
-    {
-      cmd += (char)c;
-    }
-  }
-
-  return cmd;
-}
+// *******************************************************************
+// COMMAND HANDLING
+// *******************************************************************
 
 
 bool handleInterval(String cmd)
@@ -51,8 +50,6 @@ bool handleInterval(String cmd)
     Serial.print("Setting time interval to ");
     Serial.print(inputTime);
     Serial.println(" seconds");
-//    Serial.print("timeInterval = ");
-//    Serial.println(timeInterval);
     return true;
   }
   return false;
@@ -68,8 +65,6 @@ bool handlePhotos(String cmd)
     
     Serial.print("Setting photo count to ");
     Serial.println(inputPhotoCount);
-//    Serial.print("photosToTake = ");
-//    Serial.println(photosToTake);
     return true;
   }
   return false;
@@ -140,12 +135,18 @@ void handleCommand(String cmd)
 }
 
 
+// *******************************************************************
+// SETUP AND LOOP
+// *******************************************************************
+
+
+const int loginPin = 8;
 void setup() {
   Serial.begin(9600);
   Serial.println("Camera Shutter Release!");
   
-  pinMode(8, OUTPUT);
-  digitalWrite(8, LOW);
+  pinMode(loginPin, OUTPUT);
+  digitalWrite(loginPin, LOW);
 }
 
 
@@ -169,21 +170,15 @@ void loop()
       cmd += (char)c;
     }
   }
-  
-//  String cmd = getCommand();
-//  if (cmd.length() == 0)
-//    return;
-//  handleCommand(cmd);
 
   if (shutterIsActive)
   {
     Serial.print("Photos left: ");
     Serial.println(photosToTake);
-//    Serial.println("High!");
-    digitalWrite(8, HIGH);
+
+    digitalWrite(loginPin, HIGH);
     delay(500);
-//    Serial.println("Low!");
-    digitalWrite(8, LOW);
+    digitalWrite(loginPin, LOW);
     delay(timeInterval);
 
     --photosToTake;
@@ -193,3 +188,4 @@ void loop()
     }
   }
 }
+
