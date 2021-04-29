@@ -1,5 +1,8 @@
 # Shooting Timelapses with an Arduino Intervalometer
 
+
+## Project Description
+
 The purpose of this project was to get an Arduino connected to a DSLR camera, and to be able to programmatically control the camera's shutter release. The shutter release is
 essentially the mechanism that will capture a photo once activated. Being able to remotely control the shutter release can help remove camera shake that results from physically
 pushing the camera button down. It also allows the possibility of operating your camera from a distance, which might help with security surveillance, wildlife photography, etc.
@@ -20,7 +23,7 @@ was difficult to handle and not very portable, so I attached a prototyping shiel
 
 ![](https://user-images.githubusercontent.com/54720199/116506778-75b92600-a86a-11eb-9e67-6c2e2cac38df.jpg)
 
-# Demo Video
+## Demo Video
 
 Here is a video that shows the device working, as well as some of the timelapses I managed to capture with it: 
 https://www.youtube.com/watch?v=kEHigyjwOHY
